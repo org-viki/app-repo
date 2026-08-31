@@ -154,6 +154,17 @@ jobs:
 
           echo "Ingress IP: $INGRESS_IP"
 
-          curl --fail \
-            -H "Host: app.local" \
-            "http://$INGRESS_IP/"
+          # curl --fail \
+          #   -H "Host: app.local" \
+          #   "http://$INGRESS_IP/"
+          
+            kubectl run curl-test \
+              --rm -i \
+              --restart=Never \
+              --image=curlimages/curl \
+              -- \
+              curl --fail \
+              --connect-timeout 10 \
+              --max-time 30 \
+              -H "Host: app.local" \
+              http://ingress-nginx-controller.ingress-nginx/  
