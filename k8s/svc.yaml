@@ -5,7 +5,7 @@ metadata:
   name: aks-demo-app
 
 spec:
-  type: LoadBalancer
+  type: ClusterIP
 
   selector:
     app: aks-demo-app

@@ -5,20 +5,71 @@ metadata:
   name: aks-demo-app
 
 spec:
+
   replicas: 2
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
 
   selector:
     matchLabels:
       app: aks-demo-app
 
   template:
+
     metadata:
       labels:
         app: aks-demo-app
 
     spec:
+
+      securityContext:
+        runAsNonRoot: true
+
       containers:
+
         - name: aks-demo-app
-          image: acrdevvikram001.azurecr.io/aks-demo-app
+
+          image: PLACEHOLDER_IMAGE
+
           ports:
             - containerPort: 3000
+
+          securityContext:
+            allowPrivilegeEscalation: false
+
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+          startupProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            failureThreshold: 30
+            periodSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            periodSeconds: 10
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            periodSeconds: 15
+            timeoutSeconds: 2
+            failureThreshold: 3
+
+  revisionHistoryLimit: 5

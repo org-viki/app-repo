@@ -97,12 +97,34 @@ jobs:
       - name: Verify AKS connection
         run: |
           kubectl get nodes
+      
+      - name: Install NGINX Ingress Controller
+        run: |
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+          helm repo update
 
+          helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+            --namespace ingress-nginx \
+            --create-namespace    
+
+           
+
+      - name: Wait for NGINX Ingress Controller
+        run: |
+          kubectl rollout status deployment/ingress-nginx-controller \
+            -n ingress-nginx \
+            --timeout=5m          
+       
+      - name: Verify NGINX Ingress
+        run: |
+          kubectl get pods -n ingress-nginx
+          kubectl get svc -n ingress-nginx      
+      
       - name: Deploy Kubernetes resources
         run: |
           kubectl apply -f k8s/svc.yaml
           kubectl apply -f k8s/deploy.yaml
-
+          
       - name: Update image
         run: |
           kubectl set image deployment/aks-demo-app \
