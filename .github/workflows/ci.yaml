@@ -127,6 +127,7 @@ jobs:
           kubectl apply -f k8s/svc.yaml
           kubectl apply -f k8s/deploy.yaml
           kubectl apply -f k8s/ingress.yaml
+          kubectl apply -f k8s/hpa.yaml
 
       - name: Update image
         run: |
@@ -144,6 +145,7 @@ jobs:
           kubectl get service
           kubectl get ingress
           kubectl describe ingress aks-demo-app-ingress
+          kubectl get hpa
       
 # smoke test -> --fail important hai Agar HTTP error aaya:4xx / 5xx to curl failure return karega aur GitHub Actions step fail ho jayega.
       - name: Test Ingress
