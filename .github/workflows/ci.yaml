@@ -135,7 +135,7 @@ jobs:
 
       - name: Wait for rollout
         run: |
-           kubectl rollout status deployment/aks-demo-app --timeout=2m
+           kubectl rollout status deployment/aks-demo-app --timeout=5m
 
       - name: Verify Deployment
         run: |
