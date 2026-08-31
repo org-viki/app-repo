@@ -103,11 +103,17 @@ jobs:
           kubectl apply -f k8s/svc.yaml
           kubectl apply -f k8s/deploy.yaml
 
-      # - name: Update image
-      #   run: |
-      #     kubectl set image deployment/aks-demo-app \
-      #       aks-demo-app=acrdevvikram001.azurecr.io/aks-demo-app:${{ github.sha }}
+      - name: Update image
+        run: |
+          kubectl set image deployment/aks-demo-app \
+            aks-demo-app=acrdevvikram001.azurecr.io/aks-demo-app:${{ github.sha }}
 
       - name: Wait for rollout
         run: |
-          kubectl rollout status deployment/aks-demo-app          
+           kubectl rollout status deployment/aks-demo-app --timeout=2m
+
+      - name: Verify Deployment
+        run: |
+          kubectl get deployment
+          kubectl get pods
+          kubectl get service

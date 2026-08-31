@@ -19,6 +19,6 @@ spec:
     spec:
       containers:
         - name: aks-demo-app
-          image: acrdevvikram001.azurecr.io/aks-demo-app:${{ github.sha }}
+          image: acrdevvikram001.azurecr.io/aks-demo-app
           ports:
             - containerPort: 3000
