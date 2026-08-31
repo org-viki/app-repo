@@ -106,6 +106,7 @@ jobs:
           helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
             --namespace ingress-nginx \
             --create-namespace    
+            # --values k8s/helm/ingress-nginx-values.yaml
 
            
 
@@ -115,16 +116,19 @@ jobs:
             -n ingress-nginx \
             --timeout=5m          
        
-      - name: Verify NGINX Ingress
+      - name: Verify NGINX and Ingress
         run: |
           kubectl get pods -n ingress-nginx
           kubectl get svc -n ingress-nginx      
+          kubectl get ingress
+          kubectl describe ingress aks-demo-app-ingress
       
       - name: Deploy Kubernetes resources
         run: |
           kubectl apply -f k8s/svc.yaml
           kubectl apply -f k8s/deploy.yaml
-          
+          kubectl apply -f k8s/ingress.yaml
+
       - name: Update image
         run: |
           kubectl set image deployment/aks-demo-app \
