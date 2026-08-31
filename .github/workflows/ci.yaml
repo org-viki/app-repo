@@ -144,3 +144,16 @@ jobs:
           kubectl get service
           kubectl get ingress
           kubectl describe ingress aks-demo-app-ingress
+      
+# smoke test -> --fail important hai Agar HTTP error aaya:4xx / 5xx to curl failure return karega aur GitHub Actions step fail ho jayega.
+      - name: Test Ingress
+        run: |
+          INGRESS_IP=$(kubectl get svc ingress-nginx-controller \
+            -n ingress-nginx \
+            -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
+          echo "Ingress IP: $INGRESS_IP"
+
+          curl --fail \
+            -H "Host: app.local" \
+            "http://$INGRESS_IP/"
