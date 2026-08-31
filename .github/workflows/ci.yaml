@@ -120,8 +120,7 @@ jobs:
         run: |
           kubectl get pods -n ingress-nginx
           kubectl get svc -n ingress-nginx      
-          kubectl get ingress
-          kubectl describe ingress aks-demo-app-ingress
+          
       
       - name: Deploy Kubernetes resources
         run: |
@@ -143,3 +142,5 @@ jobs:
           kubectl get deployment
           kubectl get pods
           kubectl get service
+          kubectl get ingress
+          kubectl describe ingress aks-demo-app-ingress
