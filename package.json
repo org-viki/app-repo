@@ -1,0 +1,14 @@
+{
+  "name": "aks-demo-app",
+  "version": "1.0.0",
+  "description": "Simple Node.js application for Docker and AKS experiments",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
