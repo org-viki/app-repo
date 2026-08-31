@@ -1,4 +1,4 @@
-name: App CI
+name: App CI/CD
 
 on:
   push:
@@ -9,16 +9,21 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
+
   test:
     name: Test Application
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout source code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node
         uses: actions/setup-node@v5
         with:
           node-version: 22
@@ -27,19 +32,39 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
+      - name: Test
         run: npm test
-  docker-build:
-    name: Build Docker Image
+
+
+  build-and-push:
+    name: Build and Push Image
     runs-on: ubuntu-latest
 
     needs: test
 
+    environment: dev
+
     steps:
-      - name: Checkout source code
+      - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Login to ACR
+        run: |
+          az acr login --name ${{ vars.ACR_NAME }}
 
       - name: Build Docker image
         run: |
           docker build \
-            -t aks-demo-app:${{ github.sha }} .
+            -t acrdevvikram001.azurecr.io/aks-demo-app:${{ github.sha }} .
+
+      - name: Push Docker image
+        run: |
+          docker push \
+            acrdevvikram001.azurecr.io/aks-demo-app:${{ github.sha }}
