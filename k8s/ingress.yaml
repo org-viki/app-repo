@@ -8,7 +8,7 @@ spec:
   ingressClassName: nginx
 
   rules:
-    - host: sarajs.in
+    - host: app.local
       http:
         paths:
           - path: /
@@ -20,14 +20,14 @@ spec:
                 port:
                   number: 80
 
-    - host: www.sarajs.in
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
+    # - host: www.sarajs.in
+    #   http:
+    #     paths:
+    #       - path: /
+    #         pathType: Prefix
 
-            backend:
-              service:
-                name: aks-demo-app
-                port:
-                  number: 80                
+    #         backend:
+    #           service:
+    #             name: aks-demo-app
+    #             port:
+    #               number: 80                
