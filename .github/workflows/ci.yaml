@@ -1,4 +1,4 @@
-name: App CI/CD for demo app
+name: App CI/CD
 
 on:
   push:
