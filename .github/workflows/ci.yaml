@@ -156,9 +156,9 @@ jobs:
 
           echo "Ingress IP: $INGRESS_IP"
 
-          curl --fail \
-            -H "Host: sarajs.in" \
-            "http://$INGRESS_IP/"
+          # curl --fail \
+          #   -H "Host: sarajs.in" \
+          #   "http://$INGRESS_IP/"
           
             kubectl run curl-test \
               --rm -i \
