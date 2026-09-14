@@ -3,9 +3,21 @@ kind: Ingress
 
 metadata:
   name: aks-demo-app-ingress
+  annotations:
+    # Tell cert-manager to use our LetsEncrypt ClusterIssuer
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    # Enable automatic HTTP to HTTPS redirection
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 
 spec:
   ingressClassName: nginx
+
+  # TLS Termination Block
+  tls:
+    - hosts:
+        - www.sarajs.in
+      # cert-manager will save the certificate in this secret
+      secretName: sarajs-tls-secret
 
   rules:
     - host: sarajs.in
@@ -30,4 +42,4 @@ spec:
               service:
                 name: aks-demo-app
                 port:
-                  number: 80                
+                  number: 80

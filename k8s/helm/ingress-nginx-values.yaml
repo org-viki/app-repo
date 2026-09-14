@@ -9,3 +9,8 @@ controller:
     limits:
       cpu: 500m
       memory: 512Mi
+
+  service:
+    appProtocol: false
+    annotations:
+      service.beta.kubernetes.io/azure-load-balancer-health-probe-protocol: "TCP"
