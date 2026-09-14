@@ -157,7 +157,7 @@ jobs:
           echo "Ingress IP: $INGRESS_IP"
 
           curl --fail \
-            -H "Host: sarajs.in" \
+            -H "Host: www.sarajs.in" \
             "http://$INGRESS_IP/"
           
             kubectl run curl-test \
@@ -168,5 +168,5 @@ jobs:
               curl --fail \
               --connect-timeout 10 \
               --max-time 30 \
-              -H "Host: sarajs.in" \
+              -H "Host: www.sarajs.in" \
               http://ingress-nginx-controller.ingress-nginx/  
